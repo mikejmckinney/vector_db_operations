@@ -1,0 +1,2 @@
+Hello! This is a sample text file to demonstrate how we can store and retrieve text from a vector database. 
+You can replace this text with any content you like.
