@@ -12,7 +12,7 @@ This repository provides a sample Python project that demonstrates how to perfor
 - (Bonus) **RESTful API** with FastAPI for all operations.
 
 ## Project Structure
-
+```
 vector_db_operations
 │
 ├── vector_db.py         # Python class encapsulating the vector DB logic 
@@ -23,7 +23,7 @@ vector_db_operations
 ├── requirements.txt     # Dependencies
 ├── README.md
 └── .gitignore           # to ignore venv, etc.
-
+```
 
 ## Getting Started
 
