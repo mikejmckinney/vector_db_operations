@@ -69,7 +69,7 @@ vector_db_operations
     - Then open your browser at http://127.0.0.1:8000/docs for an auto-generated interactive API documentation.
     - if you're using github codespaces, you can start the server using [Uvicorn](https://www.uvicorn.org/):
         1. set the host to 0.0.0.0 so that it listens on all network interfaces (this is necessary for Codespaces to forward the port):
-        `uvicorn api:app --reload --host 0.0.0.0 --port 8000`
+        `python -m uvicorn api:app --reload --host 0.0.0.0 --port 8000`
             - --reload flag lets the server restart automatically when you change your code.
             - --host 0.0.0.0 setting ensures that the server is accessible from outside the container.
             - Port 8000 is the default, but you can choose another port if you like.
