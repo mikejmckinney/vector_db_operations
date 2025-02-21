@@ -81,3 +81,117 @@ vector_db_operations
     - Persisting Data: Chroma is configured to store data in ./chroma_db by default. You can adjust the persist_directory parameter in VectorDB.__init__.
     - Embedding Model: Using the "all-MiniLM-L6-v2" model for SentenceTransformer. You can choose any other model from [Hugging Face Hub](https://huggingface.co/models).
     - Scalability: For larger scale deployments, you may consider a distributed or hosted vector database (e.g., Weaviate, Milvus) and adapt the code accordingly.
+
+# FAQ
+
+## What Are Embedding Models?
+
+An embedding model is a way of converting text (or other data) into numerical vectors so that semantically similar items are close together in vector space. Below is a quick overview of popular embedding model families and how to choose among them.
+
+### 1. SentenceTransformer Models
+
+These models are widely used for semantic search, clustering, and other similarity tasks. They’re available via the [SentenceTransformers](https://www.sbert.net/) library and are built on top of transformer architectures.
+
+- **all-MiniLM-L6-v2**  
+  - **Description**: A lightweight model offering a good balance between speed and accuracy.  
+  - **Pros**: Fast, efficient, and low resource usage.  
+  - **Cons**: Lower accuracy than larger models.  
+  - **Use When**: Real-time applications, limited compute resources, and moderate accuracy needs.
+
+- **all-MiniLM-L12-v2**  
+  - **Description**: A slightly larger variant than L6.  
+  - **Pros**: Better accuracy than L6.  
+  - **Cons**: Higher computational cost.  
+  - **Use When**: You can handle a bit more compute overhead for better performance.
+
+- **paraphrase-MiniLM-L6-v2**  
+  - **Description**: Fine-tuned on paraphrase tasks, good for detecting semantically equivalent sentences.  
+  - **Pros**: Efficient and fast for paraphrase detection.  
+  - **Cons**: May be less optimal for other tasks.  
+  - **Use When**: Tasks where recognizing paraphrases or near-duplicate text is key.
+
+- **paraphrase-mpnet-base-v2**  
+  - **Description**: Built on MPNet, known for producing high-quality embeddings.  
+  - **Pros**: Very good accuracy and nuanced representations.  
+  - **Cons**: Larger and slower than the MiniLM variants.  
+  - **Use When**: You need higher accuracy and can afford more compute cost.
+
+- **all-distilroberta-v1**  
+  - **Description**: A distilled RoBERTa model for sentence embeddings.  
+  - **Pros**: Solid balance between performance and efficiency.  
+  - **Cons**: More resource-intensive than MiniLM.  
+  - **Use When**: You want robust language understanding with moderate computational requirements.
+
+### 2. BERT-Based Models
+
+- **bert-base-nli-mean-tokens**  
+  - **Description**: Early model using average pooling on BERT outputs for sentence embeddings.  
+  - **Pros**: Familiar, well-studied baseline.  
+  - **Cons**: Slower and less accurate than newer models.  
+  - **Use When**: Legacy or baseline comparisons.
+
+### 3. Domain-Specific & Multilingual Models
+
+- **LaBSE (Language-agnostic BERT Sentence Embedding)**  
+  - **Description**: Focused on multilingual sentence embeddings.  
+  - **Pros**: Great for cross-lingual semantic search, supporting over 100 languages.  
+  - **Cons**: Larger and more compute-intensive.  
+  - **Use When**: Cross-lingual tasks or multilingual applications.
+
+- **SciBERT, BioBERT, etc.**  
+  - **Description**: Specialized for scientific or biomedical text.  
+  - **Pros**: Domain-specific terminology handling.  
+  - **Cons**: Less effective on general domains.  
+  - **Use When**: Your data is mostly scientific papers, medical documents, or other specialized content.
+
+### When to Use Which
+
+- **Speed & Low Resource**: Use MiniLM-based models (e.g., `all-MiniLM-L6-v2`) where quick inference is key.  
+- **Higher Accuracy**: Larger models like `paraphrase-mpnet-base-v2` if you have the resources.  
+- **Multilingual or Domain-Specific**: Models like LaBSE or SciBERT for specialized use cases.  
+- **Baseline/Legacy**: Older BERT-based models for comparisons or systems requiring them.
+
+The best model depends on your project’s requirements (accuracy, speed, resource limits, domain coverage). Experiment with a few models on your dataset to see which works best. 
+
+
+## Why Use ChromaDB for This Project?
+
+[ChromaDB](https://github.com/chroma-core/chroma) was chose for its simplicity and ease of integration. It offers:
+- **Local Persistence**: You can store data in a local folder (using DuckDB under the hood) without complex setup.
+- **In-Memory Options**: For smaller or ephemeral projects, Chroma can run entirely in memory.
+- **Quick Start**: Minimal code changes to get CRUD operations on vector embeddings up and running.
+- **Active Community & Development**: Frequent updates and helpful documentation for new features.
+
+## Alternative Vector Databases
+
+There are many other vector databases, each with its own strengths. Here are a few notable ones:
+
+1. **[Pinecone](https://www.pinecone.io/)**
+   - **Description**: Fully managed SaaS vector database.
+   - **Pros**: Easy to scale, high availability, and robust performance SLAs.
+   - **Cons**: Commercial pricing for larger usage; data is hosted offsite.
+
+2. **[Weaviate](https://www.weaviate.io/)**
+   - **Description**: Open-source vector search engine with built-in modules (e.g., text2vec) and cloud hosting options.
+   - **Pros**: Rich features like hybrid search, schema-based data modeling, and pre-built transformers.
+   - **Cons**: Managing self-hosted Weaviate can be more involved; advanced features might require extra configuration.
+
+3. **[Milvus](https://milvus.io/)**
+   - **Description**: High-performance open-source vector database for large-scale similarity search.
+   - **Pros**: Optimized for high-throughput, large data volumes; strong community.
+   - **Cons**: Some learning curve for setup, plus additional dependencies like etcd for clustering.
+
+4. **[FAISS](https://github.com/facebookresearch/faiss)**
+   - **Description**: A library by Facebook AI for efficient similarity search.
+   - **Pros**: Very fast, widely used in research and production for approximate nearest neighbor search.
+   - **Cons**: Not a full database—more of an indexing library. Requires you to handle persistence and scaling layers yourself.
+
+### When to Use Which
+
+- **ChromaDB**: Great for local development, prototypes, or smaller-scale deployments where ease of setup is key.
+- **Pinecone**: Good for fully managed, production-ready services where you don’t want to manage infrastructure.
+- **Weaviate**: Handy if you want an all-in-one open-source solution with advanced features like hybrid search, knowledge graphs, etc.
+- **Milvus**: Ideal for large-scale, high-throughput vector similarity searches, especially in distributed environments.
+- **FAISS**: Useful if you only need a powerful indexing library and can handle storage or clustering on your own.
+
+
