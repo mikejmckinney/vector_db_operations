@@ -194,4 +194,12 @@ There are many other vector databases, each with its own strengths. Here are a f
 - **Milvus**: Ideal for large-scale, high-throughput vector similarity searches, especially in distributed environments.
 - **FAISS**: Useful if you only need a powerful indexing library and can handle storage or clustering on your own.
 
+## How did you handle dependencies?  What is the purpose of requirements.txt
+- requirements.txt specifies all the Python packages needed for the project, including ChromaDB, Sentence Transformers, pytest, FastAPI, and Uvicorn. This allows anyone to easily recreate the project's environment using pip install -r requirements.txt. It ensures that everyone is using the same versions of the libraries, avoiding compatibility issues.
+
+## Why is a virtual environment recommended?
+- Using a virtual environment isolates the project's dependencies from the global Python installation and from other projects. This prevents conflicts if different projects require different versions of the same library. It keeps your global environment clean and makes your project more portable
+
+## Describe your approach to testing. Why did you use pytest?
+- I followed a test-driven development approach, writing unit tests using pytest before implementing the corresponding functionality in the VectorDB class. This helped ensure that the code meets the requirements and is robust. pytest is a widely used testing framework that provides features like fixtures (like the vector_db fixture I used) to set up a consistent testing environment for each test case, making the tests more organized and easier to write
 
